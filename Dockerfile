@@ -1,9 +1,7 @@
-FROM node:14 as base
+FROM node:14
 WORKDIR /usr/src/app
 COPY package*.json ./
-
-FROM base as stage
 RUN npm install
 COPY . .
 EXPOSE 8000
-CMD [ "node", "index.js" ]
+CMD ["node", "index.js"]

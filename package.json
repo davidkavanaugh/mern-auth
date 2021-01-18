@@ -4,8 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build:local": "chmod +x scripts/build/local.sh && scripty",
-    "start:local": "chmod +x scripts/start/local.sh && scripty",
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build:docker": "sudo docker-compose up --build -d",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,8 +18,12 @@
   "author": "David Kavanaugh",
   "license": "ISC",
   "dependencies": {
+    "concurrently": "^5.3.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongoose": "^5.11.12",
+    "nodemon": "^2.0.7",
     "scripty": "^2.0.0"
   }
 }
