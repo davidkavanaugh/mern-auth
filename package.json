@@ -1,0 +1,22 @@
+{
+  "name": "mernbeltexam",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build:local": "chmod +x scripts/build/local.sh && scripty",
+    "start:local": "chmod +x scripts/start/local.sh && scripty",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://davidkavanaugh-belt-exam@dev.azure.com/davidkavanaugh-belt-exam/MERNBeltExam/_git/MERNBeltExam"
+  },
+  "author": "David Kavanaugh",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.11.12",
+    "scripty": "^2.0.0"
+  }
+}
