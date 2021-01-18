@@ -8,7 +8,7 @@
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "build:docker": "sudo docker-compose up --build -d",
+    "docker:compose": "sudo docker-compose up --build -d",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
