@@ -1,13 +1,15 @@
 const User = require("../models/users.model");
 
-const create = (req, res) => {
-  User.create(req.body)
-    .then((user) => {
-      res.status(201).json({ message: "success", user: user });
-    })
-    .catch((err) => res.status(400).json(err));
-};
-
 module.exports = {
-  create,
+  getAll: async (req, res) => {
+    console.log("getting all users");
+    try {
+      const allUsers = await User.find();
+      return res
+        .status(200)
+        .json({ message: "get all successful", users: allUsers });
+    } catch (err) {
+      return res.status(500).json({ name: err.name, message: err.message });
+    }
+  },
 };
