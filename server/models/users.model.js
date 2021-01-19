@@ -49,9 +49,13 @@ UserSchema.pre("validate", function (next) {
 });
 
 UserSchema.pre("validate", async function (next) {
-  const exists = await User.exists({ email: this.email });
-  exists && this.invalidate("email", "User already exists");
-  next();
+  try {
+    const exists = await User.exists({ email: this.email });
+    exists && this.invalidate("email", "User already exists");
+    next();
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 UserSchema.pre("save", function (next) {
