@@ -1,14 +1,13 @@
 const User = require("../models/users.model");
 
-const getAll = (request, response) => {
-  console.log("getting all");
-  User.find()
-    .then((all) => response.json(all))
-    .catch((err) => {
-      response.json(err);
-    });
+const create = (req, res) => {
+  User.create(req.body)
+    .then((user) => {
+      res.status(201).json({ message: "success", user: user });
+    })
+    .catch((err) => res.status(400).json(err));
 };
 
 module.exports = {
-  getAll,
+  create,
 };
