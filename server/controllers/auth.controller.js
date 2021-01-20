@@ -72,7 +72,7 @@ module.exports = {
         .status(201)
         .json({ message: "registration successful", token: userToken });
     } catch (err) {
-      return res.status(400).json(err);
+      return res.send(err);
     }
   },
 };

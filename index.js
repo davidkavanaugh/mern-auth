@@ -9,7 +9,7 @@ const { authenticate } = require("./server/config/jwt.config");
 const PORT = 8000;
 const HOST = "0.0.0.0";
 
-app.use(cors({ credentials: true, origin: "http://0.0.0.0:3000" }));
+app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
