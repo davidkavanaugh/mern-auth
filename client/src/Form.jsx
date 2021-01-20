@@ -1,10 +1,28 @@
 import React from "react";
 
-export const Form = (props) => {
+const Form = (props) => {
+  const { state, methods, submitBtn } = props;
   return (
-    <form onSubmit={props.onSubmit}>
-      {props.children}
-      <input type="submit" value={props.submitBtn} />
+    <form onSubmit={methods.registerUser}>
+      {Object.keys(state).map((item, index) => {
+        if (!item.includes("Errors")) {
+          return (
+            <Input
+              key={index}
+              name={item}
+              type={
+                item.toLowerCase().includes("password") ? "password" : "text"
+              }
+              placeholder={item}
+              onChange={methods.handleChange}
+              value={state[item]}
+              errors={state[`${item}Errors`]}
+            />
+          );
+        }
+        return <React.Fragment key={index}></React.Fragment>;
+      })}
+      <input type="submit" value={submitBtn} />
     </form>
   );
 };
@@ -22,12 +40,19 @@ export const Input = (props) => {
       fontStyle: "italic",
     },
   };
+
+  const getLabel = (str) => {
+    let response = str.split(/(?=[A-Z])/);
+    response[0] = response[0][0].toUpperCase().concat(response[0].slice(1));
+    return response.join(" ");
+  };
+
   return (
     <div>
       <input
         name={props.name}
         type={props.type}
-        placeholder={props.placeholder}
+        placeholder={getLabel(props.placeholder)}
         onChange={props.onChange}
         value={props.value}
         style={props.errors ? styles.inputError : null}
@@ -36,3 +61,5 @@ export const Input = (props) => {
     </div>
   );
 };
+
+export default Form;

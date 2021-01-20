@@ -1,6 +1,5 @@
 import { useReducer } from "react";
 import { RegistrationError } from "../errors/auth.errors";
-// import { navigate } from "@reach/router";
 import axios from "axios";
 
 const initialState = {
@@ -23,7 +22,7 @@ const reducer = (state, action) => {
   };
 };
 
-const AuthRepository = () => {
+const RegistrationRepository = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleChange = (e) => {
@@ -151,56 +150,9 @@ const AuthRepository = () => {
     }
   };
 
-  //   const deletePlayer = (id) => {
-  //     axios
-  //       .delete(`http://localhost:8000/api/players/${id}`)
-  //       .then((response) => {
-  //         let playersArr = state.allPlayers.filter(
-  //           (player) => player._id !== response.data._id
-  //         );
-  //         dispatch({
-  //           type: "allPlayers",
-  //           payload: playersArr,
-  //         });
-  //       })
-  //       .catch((err) => console.log(err));
-  //   };
-
-  //   const getAllPlayers = () => {
-  //     axios
-  //       .get("http://localhost:8000/api/players")
-  //       .then((response) => {
-  //         dispatch({
-  //           type: "allPlayers",
-  //           payload: response.data,
-  //         });
-  //       })
-  //       .catch((err) => console.log(err));
-  //   };
-
-  //   const patchPlayer = (id, update) => {
-  //     axios
-  //       .patch(`http://localhost:8000/api/players/${id}`, update)
-  //       .then((response) => {
-  //         let playersArr = [...state.allPlayers];
-  //         playersArr.forEach((player) => {
-  //           if (player._id === response.data._id) {
-  //             for (const gameName in update) {
-  //               player[gameName] = update[gameName];
-  //             }
-  //           }
-  //         });
-  //         dispatch({
-  //           type: "allPlayers",
-  //           payload: playersArr,
-  //         });
-  //       })
-  //       .catch((err) => console.log(err));
-  //   };
-
   return {
-    authState: state,
-    authMethods: {
+    registrationState: state,
+    registrationMethods: {
       handleChange,
       registerUser,
       getAll,
@@ -211,4 +163,4 @@ const AuthRepository = () => {
   };
 };
 
-export default AuthRepository;
+export default RegistrationRepository;

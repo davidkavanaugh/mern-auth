@@ -1,14 +1,29 @@
 import React from "react";
 import { Router } from "@reach/router";
-import authRepository from "./repositories/auth.repository";
-import Register from "./Register";
+import registrationRepository from "./repositories/registration.repository";
+import loginRepository from "./repositories/login.repository";
+
+import Form from "./Form";
 
 const App = () => {
-  const { authState, authMethods } = authRepository();
+  const { registrationState, registrationMethods } = registrationRepository();
+  const { loginState, loginMethods } = loginRepository();
+
   return (
     <>
       <Router>
-        <Register state={authState} methods={authMethods} path="/register" />
+        <Form
+          path="/register"
+          state={registrationState}
+          methods={registrationMethods}
+          submitBtn={"Submit"}
+        />
+        <Form
+          path="/login"
+          state={loginState}
+          methods={loginMethods}
+          submitBtn="Ok"
+        />
       </Router>
     </>
   );
