@@ -1,6 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 const Dashboard = (props) => {
-  return <div>Dashboard</div>;
+  const { getSelf, userState } = props;
+  useEffect(() => {
+    getSelf();
+  }, []);
+  if (!userState) {
+    return <>Loading...</>;
+  } else {
+    const { firstName, lastName } = userState.user;
+    return (
+      <div>
+        Welcome, {firstName} {lastName}
+      </div>
+    );
+  }
 };
 
 export default Dashboard;
