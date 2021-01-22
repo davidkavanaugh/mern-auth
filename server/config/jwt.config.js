@@ -56,6 +56,11 @@ module.exports = {
     }
   },
 
+  GetUserIdFromJWT: async (token) => {
+    let decoded = jwt.decode(token);
+    decoded = decoded.sub.split("|").pop();
+    return decoded;
+  },
   refresh: (req, res) => {
     console.log("refreshing token");
     const token = tokenGenerator.refresh(req.headers.authorization.slice(7), {
