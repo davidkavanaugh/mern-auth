@@ -23,7 +23,7 @@ const App = () => {
   const { linkState, linkStateChangeHandler } = NavRepository();
   return (
     <>
-      <Navbar title="MERN Belt Exam" links={linkState} logout={logoutHandler} />
+      <Navbar title="MERN Auth" links={linkState} logout={logoutHandler} />
       <Router>
         <PublicRoute
           path="/login"
