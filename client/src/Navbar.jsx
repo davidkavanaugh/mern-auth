@@ -35,9 +35,6 @@ const Navbar = (props) => {
                   ? () => logout()
                   : () => navigate(`${links[link].url}`)
               }
-              // onClick={
-              //   link === "logout" ? logout() : () => navigate(links[link].url)
-              // }
             >
               <span style={{ fontWeight: !links[link].active && "bold" }}>
                 {link[0].toUpperCase().concat(link.slice(1))}
