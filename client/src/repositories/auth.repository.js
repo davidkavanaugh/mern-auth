@@ -52,7 +52,7 @@ const AuthRepository = () => {
         password: loginState.password,
       });
       if (!response.data.errors) {
-        await saveToken(response.data.token);
+        Cookies.set("token", response.data.token);
         navigate("/");
       } else throw new LoginError("oops", response.data.errors);
     } catch (err) {
@@ -170,7 +170,7 @@ const AuthRepository = () => {
         confirmPassword: registrationState.confirmPassword,
       });
       if (!response.data.errors) {
-        saveToken(response.data.token);
+        Cookies.set("token", response.data.token);
         navigate("/");
       } else throw new RegistrationError("oops", response.data.errors);
     } catch (err) {
@@ -183,16 +183,12 @@ const AuthRepository = () => {
     }
   };
 
-  const saveToken = async (tkn) => {
-    Cookies.set("token", tkn);
-  };
-
   const refreshTokenHandler = async () => {
     try {
       const response = await axios.get(`${API}/auth/refresh`, {
         headers: { authorization: `Bearer ${Cookies.get("token")}` },
       });
-      saveToken(response.data.token);
+      Cookies.set("token", response.data.token);
     } catch (err) {
       navigate("/login");
     }
