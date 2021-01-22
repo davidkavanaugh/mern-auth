@@ -1,11 +1,14 @@
 import React from "react";
 
 const Form = (props) => {
-  const { state, methods, submitBtn } = props;
+  const { state, onChange, onSubmit, submitBtn } = props;
   return (
-    <form onSubmit={methods.registerUser}>
+    <form onSubmit={onSubmit}>
       {Object.keys(state).map((item, index) => {
         if (!item.includes("Errors")) {
+          // if item.includes("Bool") return checkbox
+          // if item.inclues("Selection") return dropdown selection
+          // if item.includes("TextArea") return textarea
           return (
             <Input
               key={index}
@@ -14,7 +17,7 @@ const Form = (props) => {
                 item.toLowerCase().includes("password") ? "password" : "text"
               }
               placeholder={item}
-              onChange={methods.handleChange}
+              onChange={onChange}
               value={state[item]}
               errors={state[`${item}Errors`]}
             />
