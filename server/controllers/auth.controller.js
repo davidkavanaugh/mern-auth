@@ -50,12 +50,8 @@ module.exports = {
     try {
       const user = await User.create(req.body);
       // issue jwt
-      const userToken = jwt.sign(
-        {
-          id: user._id,
-        },
-        process.env.SECRET_KEY
-      );
+      const userToken = await jwt.sign({ userId: user._id });
+
       return res
         .status(201)
         .json({ message: "registration successful", token: userToken });
