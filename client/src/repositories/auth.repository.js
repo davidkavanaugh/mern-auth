@@ -3,7 +3,6 @@ import { LoginError, RegistrationError } from "../errors/auth.errors";
 import axios from "axios";
 import { navigate } from "@reach/router";
 import Cookies from "js-cookie";
-
 const AuthRepository = () => {
   const reducer = (state, action) => {
     return {
@@ -43,16 +42,15 @@ const AuthRepository = () => {
     });
   };
 
+  const API = process.env.REACT_APP_API;
+
   const loginSubmitHandler = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/auth/login",
-        {
-          email: loginState.email,
-          password: loginState.password,
-        }
-      );
+      const response = await axios.post(`${API}/auth/login`, {
+        email: loginState.email,
+        password: loginState.password,
+      });
       if (!response.data.errors) {
         await saveToken(response.data.token);
         navigate("/");
@@ -164,16 +162,13 @@ const AuthRepository = () => {
   const registrationSubmitHandler = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/auth/register",
-        {
-          firstName: registrationState.firstName,
-          lastName: registrationState.lastName,
-          email: registrationState.email,
-          password: registrationState.password,
-          confirmPassword: registrationState.confirmPassword,
-        }
-      );
+      const response = await axios.post(`${API}/auth/register`, {
+        firstName: registrationState.firstName,
+        lastName: registrationState.lastName,
+        email: registrationState.email,
+        password: registrationState.password,
+        confirmPassword: registrationState.confirmPassword,
+      });
       if (!response.data.errors) {
         saveToken(response.data.token);
         navigate("/");
@@ -194,10 +189,9 @@ const AuthRepository = () => {
 
   const refreshTokenHandler = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:8000/api/auth/refresh",
-        { headers: { authorization: `Bearer ${Cookies.get("token")}` } }
-      );
+      const response = await axios.get(`${API}/auth/refresh`, {
+        headers: { authorization: `Bearer ${Cookies.get("token")}` },
+      });
       saveToken(response.data.token);
     } catch (err) {
       navigate("/login");
