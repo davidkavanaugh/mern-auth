@@ -1,4 +1,4 @@
-##MERN Auth
+# MERN Auth
 
 This is a MERN authorization and authentication flow utilizing jsonwebtokens
 
