@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const jwt = require("../config/jwt.config");
 const { NotFoundError } = require("../errors");
 const User = require("../models/users.model");
 
@@ -9,51 +9,42 @@ module.exports = {
     try {
       // search for user in db
       const user = await User.findOne({ email: req.body.email });
-      if (!user) throw new NotFoundError("User not found");
+      if (!user)
+        throw new NotFoundError("oops", {
+          email: { message: "User Not Found" },
+        });
 
       // check password against hashed in db
       const correctPassword = await bcrypt.compare(
         req.body.password,
         user.password
       );
-      if (!correctPassword) throw new NotFoundError("User not found");
+      if (!correctPassword)
+        throw new NotFoundError("oops", {
+          email: { message: "User Not Found" },
+        });
 
       // issue jwt
-      const userToken = jwt.sign(
-        {
-          id: user._id,
-        },
-        process.env.SECRET_KEY
-      );
+      const userToken = await jwt.sign({ userId: user._id });
+      // send jwt
+      return res.json({ token: userToken });
+    } catch (err) {
+      return res.send(err);
+    }
+  },
 
-      // send jwt in cookie
-      res
-        .cookie("usertoken", userToken, process.env.SECRET_KEY, {
-          httpOnly: true,
-        })
-        .status(200)
-        .json({ message: "login successful", token: userToken });
-    } catch (err) {
-      if (err instanceof NotFoundError) {
-        return res.status(404).json({
-          errors: {
-            email: { name: err.name, message: err.message },
-          },
-        });
-      } else return res.status(500).json(err);
-    }
-  },
-  logout: (req, res) => {
-    console.log("logging out user");
+  refresh: async (req, res) => {
     try {
-      return res
-        .status(200)
-        .clearCookie("usertoken")
-        .json({ message: "logout successful" });
+      const userToken = await jwt.refresh(req);
+      return res.json({ token: userToken });
     } catch (err) {
-      return res.status(500).json({ name: err.name, message: err.message });
+      console.log(err);
+      res
+        .status(401)
+        .json({ statusCode: 401, error: err.name, message: err.message });
     }
   },
+
   register: async (req, res) => {
     console.log("registering new user");
     try {
@@ -66,13 +57,10 @@ module.exports = {
         process.env.SECRET_KEY
       );
       return res
-        .cookie("usertoken", userToken, process.env.SECRET_KEY, {
-          httpOnly: true,
-        })
         .status(201)
         .json({ message: "registration successful", token: userToken });
     } catch (err) {
-      return res.status(400).json(err);
+      return res.send(err);
     }
   },
 };

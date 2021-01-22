@@ -1,25 +1,60 @@
-import logo from "./logo.svg";
-import "./App.css";
+import React from "react";
+import { Router } from "@reach/router";
+import AuthRepository from "./repositories/auth.repository";
+import NavRepository from "./repositories/nav.repository";
+import PrivateRoute from "./PrivateRoute";
+import PublicRoute from "./PublicRoute";
+import Navbar from "./Navbar";
+import Login from "./Login";
+import Registration from "./Registration";
+import Dashboard from "./Dashboard";
 
-function App() {
+const App = () => {
+  const {
+    loginState,
+    loginStateChangeHandler,
+    loginSubmitHandler,
+    logoutHandler,
+    registrationState,
+    registrationStateChangeHandler,
+    registrationSubmitHandler,
+    refreshTokenHandler,
+  } = AuthRepository();
+  const { linkState, linkStateChangeHandler } = NavRepository();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and saves to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navbar title="MERN Belt Exam" links={linkState} logout={logoutHandler} />
+      <Router>
+        <PublicRoute
+          path="/login"
+          linkName="login"
+          updateLink={linkStateChangeHandler}
+          state={loginState}
+          onChange={loginStateChangeHandler}
+          onSubmit={loginSubmitHandler}
+          submitBtn="Login"
+          component={Login}
+        />
+        <PublicRoute
+          path="/register"
+          linkName="register"
+          updateLink={linkStateChangeHandler}
+          state={registrationState}
+          onChange={registrationStateChangeHandler}
+          onSubmit={registrationSubmitHandler}
+          submitBtn="Register"
+          component={Registration}
+        />
+        <PrivateRoute
+          path="/"
+          linkName="dashboard"
+          updateLink={linkStateChangeHandler}
+          refreshToken={refreshTokenHandler}
+          component={Dashboard}
+        />
+      </Router>
+    </>
   );
-}
+};
 
 export default App;

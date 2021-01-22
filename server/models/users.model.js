@@ -4,33 +4,32 @@ const UserSchema = new Schema(
   {
     firstName: {
       type: String,
-      required: [true, "First name is required"],
-      minlength: [2, "First name must be 2 characters or longer"],
+      required: [true, "first name is required"],
+      minlength: [2, "first name must be 2 characters or longer"],
     },
     lastName: {
       type: String,
-      required: [true, "Last name is required"],
-      minlength: [2, "Last name must be 2 characters or longer"],
+      required: [true, "last name is required"],
+      minlength: [2, "last name must be 2 characters or longer"],
     },
     email: {
       type: String,
-      required: [true, "Email is required"],
+      required: [true, "email is required"],
       validate: {
         validator: (val) => /^([\w-\.]+@([\w-]+\.)+[\w-]+)?$/.test(val),
-        message: "Please enter a valid email",
+        message: "please enter a valid email address",
       },
     },
     password: {
       type: String,
-      required: [true, "Password is required"],
-      minlength: [8, "Password must be 8 characters or longer"],
+      required: [true, "password is required"],
       validate: {
         validator: (val) =>
           /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@~!#$%^&*?/+-])[A-Za-z\d@~!#$%^&*?/+-]{8,}$/.test(
             val
           ),
         message:
-          "Passwords must be at least 8 characters, contain one uppercase letter, one lowercase letter, and one special character",
+          "passwords must be at least 8 characters, contain one uppercase letter, one lowercase letter, and one special character",
       },
     },
   },
@@ -43,7 +42,7 @@ UserSchema.virtual("confirmPassword")
 
 UserSchema.pre("validate", function (next) {
   if (this.password !== this.confirmPassword) {
-    this.invalidate("confirmPassword", "Password must match confirm password");
+    this.invalidate("confirmPassword", "passwords must match");
   }
   next();
 });
@@ -51,7 +50,7 @@ UserSchema.pre("validate", function (next) {
 UserSchema.pre("validate", async function (next) {
   try {
     const exists = await User.exists({ email: this.email });
-    exists && this.invalidate("email", "User already exists");
+    exists && this.invalidate("email", "user already exists");
     next();
   } catch (err) {
     console.log(err);
